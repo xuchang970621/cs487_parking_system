@@ -3,7 +3,7 @@
 1. install django
 2. Setting up basics (from chang, reference page: https://docs.djangoproject.com/en/3.0/intro/tutorial01/)
     
-    Already done:
+  Already done:
       ```shell
       django-admin startproject cs487
       python manage.py startapp parking
