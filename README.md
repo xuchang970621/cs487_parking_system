@@ -5,7 +5,7 @@
     
     Already done:
     
-    [] hi
+- [ ] Push my commits to GitHub
       ```shell
       django-admin startproject mysite
       ```
