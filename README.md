@@ -5,6 +5,7 @@
     
     Already done:
     
-    - [ ] ```shell
+    - [ ] 
+      ```shell
       django-admin startproject mysite
       ```
