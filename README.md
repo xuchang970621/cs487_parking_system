@@ -15,7 +15,12 @@
     Already done:
       ```shell
       python manage.py migrate
+      python manage.py makemigrations parking
+      python manage.py createsuperuser  # admin, (empty email), 123456
       ```
+      added models in parking/models.py
+      added parking app in cs487/settings.py
+      added models to parking/admin.py
       
 IMPORTANT commands:
     ```shell
