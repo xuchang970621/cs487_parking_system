@@ -10,10 +10,12 @@
       ```
       added index page
       
- 3. Datatbase (from chang, reference page: https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
-    TODO.
-      
-      
+3. Datatbase (from chang, reference page: https://docs.djangoproject.com/en/3.0/intro/tutorial02/)
+ 
+    Already done:
+      ```shell
+      python manage.py migrate
+      ```
       
 IMPORTANT commands:
     ```shell
