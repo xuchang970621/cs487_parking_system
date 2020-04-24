@@ -21,6 +21,10 @@
       added parking app in cs487/settings.py  
       added models to parking/admin.py  
       
+URL:  
+	http://127.0.0.1:8000/admin/  
+
+
 IMPORTANT commands:
     ```shell
     python manage.py runserver
