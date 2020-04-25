@@ -25,6 +25,15 @@ URL:
       http://127.0.0.1:8000/admin/  
       http://127.0.0.1:8000/parking/
 
+
+TODO:  
+1. booking option
+2. booking confirmation
+3. registration page
+4. search address
+5. history of searching
+6. check out
+
 IMPORTANT commands:
     ```shell
     python manage.py runserver
