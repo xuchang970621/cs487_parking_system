@@ -13,6 +13,9 @@ class ParkingSpot(models.Model):
     spot_occupancy = models.CharField(max_length=1)
     spot_availabiliy = models.CharField(max_length=200)
 
+#    def getLot_id(self):
+#        return lot_id.lot_id
+
 class Address(models.Model):
     address_id = models.CharField(primary_key=True, max_length=6)
     line1 = models.CharField(max_length=200)
