@@ -22,7 +22,8 @@ from django.urls import include
 
 '''chang: added path for parking/ ->'''
 urlpatterns = [
-    path('parking/', include('parking.urls')),
+    path('', include('parking.urls')),
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 '''<-chang'''
