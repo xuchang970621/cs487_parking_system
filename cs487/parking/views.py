@@ -13,6 +13,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import permission_required
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 
 @login_required
@@ -48,7 +53,10 @@ class MySpots(LoginRequiredMixin,generic.ListView):
 #        print (ParkingSpot.objects.filter(spot_user=self.request.user).filter(spot_occupancy='o').all())
         return ParkingSpot.objects.filter(spot_user=self.request.user).filter(spot_occupancy='o').all()
 
-def book(request, pk):
+@permission_required('parking.booked')
+def book(request, spot_id):
+    book_instance = get_object_or_404(ParkingSpot, spot_id=spot_id)
+
     # If this is a POST request then process the Form data
     if request.method == 'POST':
 
@@ -58,11 +66,13 @@ def book(request, pk):
         # Check if the form is valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-#            book_instance.due_back = form.cleaned_data['renewal_date']
-#            book_instance.save()
+            book_instance.booked_date = form.cleaned_data['renewal_date']
+            book_instance.spot_occupancy = 'o'
+            book_instance.spot_user = request.user
+            book_instance.save()
 
             # redirect to a new URL:
-            return HttpResponseRedirect(reverse('all-borrowed') )
+            return HttpResponseRedirect(reverse('parking:myspots') )
 
     # If this is a GET (or any other method) create the default form.
     else:
@@ -71,6 +81,7 @@ def book(request, pk):
 
     context = {
         'form': form,
+        'book_instance': book_instance,
         }
 
     return render(request, 'parking/book.html', context)

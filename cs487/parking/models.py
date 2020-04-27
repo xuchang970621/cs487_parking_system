@@ -27,7 +27,10 @@ class ParkingSpot(models.Model):
     spot_occupancy = models.CharField(max_length=1)
     spot_availabiliy = models.CharField(max_length=200)
     spot_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    booked_date = models.DateField(null=True, blank=True)
 
+    class Meta:
+        permissions = (("booked", "This parking spot is booked by this user"),)   
 
 #    def getLot_id(self):
 #        return lot_id.lot_id

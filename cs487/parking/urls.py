@@ -8,7 +8,7 @@ urlpatterns = [
             path('', views.index, name='index'),
             path('<int:lot_id>/', views.detail, name='detail'),
             path('myspots/', views.MySpots.as_view(), name='myspots'),
-            path('book/', views.book, name='book'),
+            path('book/<int:spot_id>', views.book, name='book'),
 
 ]
 '''<- chang'''
