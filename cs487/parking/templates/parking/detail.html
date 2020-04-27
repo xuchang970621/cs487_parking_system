@@ -20,7 +20,7 @@ User: {{ user.get_username }} <br>
 		(o for "occupied"; n for "not occupied")<br>
 
 		{% for question in latest_question_list %}
-		<li>spot # {{question.spot_number}} | {{question.spot_occupancy}} | {{question.booked_date}} | <a href="{% url 'parking:book' question.spot_number %}"><u>Click here to book!</u></a> </li>
+		<li>spot # {{question.spot_number}} | {{question.spot_occupancy}} | {{question.booked_date}} | <a href="{% url 'parking:book' question.spot_id %}"><u>Click here to book!</u></a> </li>
 		{% endfor %} <br><br>
 
 </ul>
