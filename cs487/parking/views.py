@@ -23,7 +23,7 @@ from django.urls import reverse
 @login_required
 def index(request):
     #    latest_question_list = ParkingSpot.objects.order_by('-lot_id')[:5]
-    latest_question_list = ParkingSpot.objects.all()
+    latest_question_list = ParkingLot.objects.order_by('lot_id')
     context = {'latest_question_list': latest_question_list}
     return render(request, 'parking/index.html', context)
 

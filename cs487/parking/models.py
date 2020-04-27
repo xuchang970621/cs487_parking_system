@@ -12,7 +12,7 @@ class Address(models.Model):
     postcode = models.CharField(max_length=6)
     
     def __str__(self):
-        return self.line1 + ', ' + self.line2 + '\n' + self.city + ', ' + self.state + ',' + self.postcode + '\n' + self.country + '\n'
+        return self.line1 + ', ' + self.line2 + '\n' + self.city + ', ' + self.state + ', ' + self.postcode + '\n' + self.country + '\n'
 
 class ParkingLot(models.Model):
     lot_id = models.CharField(primary_key=True, max_length=6)
