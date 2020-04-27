@@ -18,13 +18,17 @@ from django.contrib.auth.decorators import permission_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.db.models import Count
 
 @login_required
 def index(request):
     #    latest_question_list = ParkingSpot.objects.order_by('-lot_id')[:5]
-    latest_question_list = ParkingLot.objects.order_by('lot_id')
-    context = {'latest_question_list': latest_question_list}
+    lot_list = ParkingLot.objects.order_by('lot_id')
+    empty_count_list = ParkingSpot.objects.values('lot_id', 'spot_occupancy').annotate(number_spots=Count('spot_occupancy')).filter(spot_occupancy = 'n').order_by('lot_id').values_list('number_spots', flat=True)
+    print(list(empty_count_list))
+    latest_question_list = zip(lot_list, empty_count_list)
+    context = {'latest_question_list': latest_question_list,
+            }
     return render(request, 'parking/index.html', context)
 
 @login_required
@@ -34,12 +38,14 @@ def detail(request, lot_id):
     lot_hours = ParkingLot.objects.filter(lot_id = lot_id).values('lot_hours')[0]['lot_hours']
     address_id = ParkingLot.objects.filter(lot_id = lot_id).values('lot_address')[0]['lot_address']
     lot_address = Address.objects.filter(address_id = address_id)[0]
+
     context = {'latest_question_list': latest_question_list,
             'lot_id': lot_id,
             'lot_name': lot_name,
             'lot_hours': lot_hours,
             'lot_address': lot_address
             }    
+
     return render(request, 'parking/detail.html', context)
 
 

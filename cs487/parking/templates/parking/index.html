@@ -13,8 +13,8 @@ User: {{ user.get_username }} <br>
 		<br><b>Our Parking Lots:</b> <br>
 		parking lot | empty spots | hours | address <br>
 
-		{% for question in latest_question_list %}
-		<li><a href="{% url 'parking:detail' question.lot_id %}">parking lot: {{question.lot_name}}</a> | | {{question.lot_hours}} | {{question.lot_address}}</li>
+		{% for question, count in latest_question_list %}
+		<li><a href="{% url 'parking:detail' question.lot_id %}">parking lot: {{question.lot_name}}</a> | {{count}}  | {{question.lot_hours}} | {{question.lot_address}}</li>
 		{% endfor %}
 </ul>
 {% else %}
