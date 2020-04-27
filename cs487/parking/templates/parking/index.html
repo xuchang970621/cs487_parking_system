@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+User: {{ user.get_username }} <br>
+<a href="{% url 'logout'%}?next={{request.path}}">Logout</a> <br><br>
+
+<h1>Welcome to cs487 parking lot.</h1>
+
+{% if latest_question_list %}
+<ul>
+		<b>Our Parking Lots:</b> <br><br>
+		parking lot | empty spots | hours | address <br>
+
+		{% for question in latest_question_list %}
+		<li><a href="{% url 'parking:detail' question.lot_id %}">parking lot: {{question.lot_name}}</a> | | {{question.lot_hours}} | {{question.lot_address}}</li>
+		{% endfor %}
+</ul>
+{% else %}
+<p>No parkings are available.</p>
+{% endif %}
+
+{% endblock %}
