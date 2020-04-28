@@ -10,3 +10,7 @@ admin.site.register(ParkingLot)
 admin.site.register(ParkingSpot)
 admin.site.register(Address)
 admin.site.register(Payment)
+
+admin.site.site_header = "Parking Administration"
+
+

@@ -7,7 +7,9 @@ from .models import ParkingLot
 from .models import ParkingSpot
 from .models import Address
 from .models import Payment
-from parking.forms import BookSpot
+#from parking.forms import BookSpot
+from parking.forms import BookTime
+#from parking.forms import BookMinute
 
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -19,6 +21,7 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.db.models import Count
+from datetime import timedelta
 
 @login_required
 def index(request):
@@ -56,8 +59,8 @@ class MySpots(LoginRequiredMixin,generic.ListView):
     template_name ='parking/myspots.html'
     paginate_by = 10
     def get_queryset(self):
-#        print (ParkingSpot.objects.filter(spot_user=self.request.user).filter(spot_occupancy='o').all())
         return ParkingSpot.objects.filter(spot_user=self.request.user).filter(spot_occupancy='o').all()
+
 
 @permission_required('parking.booked')
 def book(request, spot_id):
@@ -67,26 +70,31 @@ def book(request, spot_id):
     if request.method == 'POST':
 
         # Create a form instance and populate it with data from the request (binding):
-        form = BookSpot(request.POST)
-
+#        form = BookSpot(request.POST)
+        form1 = BookTime(request.POST)
+#        form2 = BookMinute(request.POST)
         # Check if the form is valid:
-        if form.is_valid():
+        if form1.is_valid():
             # process the data in form.cleaned_data as required (here we just write it to the model due_back field)
-            book_instance.booked_date = form.cleaned_data['renewal_date']
+            book_instance.booked_time = form1.cleaned_data['renewal_time']
             book_instance.spot_occupancy = 'o'
             book_instance.spot_user = request.user
-            book_instance.save()
 
+            booked_minute = form1.cleaned_data['renewal_minute']
+            book_instance.end_time = book_instance.booked_time + timedelta(minutes = booked_minute)
+            book_instance.save()
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('parking:myspots') )
 
     # If this is a GET (or any other method) create the default form.
     else:
-        proposed_renewal_date = datetime.date.today() + datetime.timedelta(weeks=3)
-        form = BookSpot(initial={'renewal_date': proposed_renewal_date})
+        proposed_renewal_time = datetime.datetime.now()
+        proposed_renewal_minute = 30
+        form1 = BookTime(initial={'renewal_time': proposed_renewal_time, 'renewal_minute': proposed_renewal_minute})
+#        form2 = BookTime(initial={'renewal_minute': proposed_renewal_minute})
 
     context = {
-        'form': form,
+        'form1': form1,
         'book_instance': book_instance,
         }
 

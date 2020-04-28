@@ -1,7 +1,7 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-User: {{ user.get_username }} <br>
+Hi, {{ user.get_username }}! <br>
 <a href="{% url 'logout'%}?next={{request.path}}">Logout</a> <br><br>
 
 
@@ -11,7 +11,7 @@ User: {{ user.get_username }} <br>
 <ul>
 		<b>my spots:</b> <br>
 		{% for bookinst in bookinstance_list %} 
-		<li>parking lot: {{bookinst.lot_id.lot_name}} | <a href="{% url 'parking:detail' bookinst.lot_id.lot_id %}">spot # {{bookinst.spot_number}}</a> | {{bookinst.spot_occupancy}} | {{bookinst.spot_availabiliy}}</li>
+		<li>parking lot: {{bookinst.lot_id.lot_name}} | <a href="{% url 'parking:detail' bookinst.lot_id.lot_id %}">spot # {{bookinst.spot_number}}</a> | {{bookinst.spot_occupancy}} | {{bookinst.booked_time}} | {{bookinst.end_time}}</li>
 		{% endfor %}
 </ul>
 
