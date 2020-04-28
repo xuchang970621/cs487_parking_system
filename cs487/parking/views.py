@@ -27,16 +27,22 @@ from datetime import timedelta
 def index(request):
     #    latest_question_list = ParkingSpot.objects.order_by('-lot_id')[:5]
     lot_list = ParkingLot.objects.order_by('lot_id')
-    empty_count_list = ParkingSpot.objects.values('lot_id', 'spot_occupancy').annotate(number_spots=Count('spot_occupancy')).filter(spot_occupancy = 'n').order_by('lot_id').values_list('number_spots', flat=True)
-    print(list(empty_count_list))
+#    empty_count_list = ParkingSpot.objects.values('lot_id', 'spot_occupancy').annotate(number_spots=Count('spot_occupancy')).filter(spot_occupancy = 'n').order_by('lot_id').values_list('number_spots', flat=True)
+#    empty_count_list = ParkingSpot.objects.filter(spot_occupancy = 'n').values('lot_id', 'spot_occupancy').annotate(number_spots=Count('spot_occupancy')).order_by('lot_id').values_list('number_spots', flat=True)
+    empty_count_list = []
+    for lot_id in lot_list.values_list('lot_id', flat=True):
+        empty_count = ParkingSpot.objects.filter(lot_id = lot_id, spot_occupancy = 'n').count()
+        empty_count_list.append(empty_count)
+
     latest_question_list = zip(lot_list, empty_count_list)
+
     context = {'latest_question_list': latest_question_list,
             }
     return render(request, 'parking/index.html', context)
 
 @login_required
 def detail(request, lot_id):
-    latest_question_list = ParkingSpot.objects.filter(lot_id__lot_id = lot_id)
+    latest_question_list = ParkingSpot.objects.filter(lot_id__lot_id = lot_id).order_by('spot_occupancy')
     lot_name = ParkingLot.objects.filter(lot_id = lot_id).values('lot_name')[0]['lot_name']
     lot_hours = ParkingLot.objects.filter(lot_id = lot_id).values('lot_hours')[0]['lot_hours']
     address_id = ParkingLot.objects.filter(lot_id = lot_id).values('lot_address')[0]['lot_address']
@@ -82,6 +88,7 @@ def book(request, spot_id):
 
             booked_minute = form1.cleaned_data['renewal_minute']
             book_instance.end_time = book_instance.booked_time + timedelta(minutes = booked_minute)
+            book_instance.license_plate = form1.cleaned_data['renewal_license']
             book_instance.save()
             # redirect to a new URL:
             return HttpResponseRedirect(reverse('parking:myspots') )
@@ -90,7 +97,8 @@ def book(request, spot_id):
     else:
         proposed_renewal_time = datetime.datetime.now()
         proposed_renewal_minute = 30
-        form1 = BookTime(initial={'renewal_time': proposed_renewal_time, 'renewal_minute': proposed_renewal_minute})
+        proposed_renewal_license = 'AA00000'
+        form1 = BookTime(initial={'renewal_time': proposed_renewal_time, 'renewal_minute': proposed_renewal_minute, 'proposed_renewal_license' : 'AA00000'})
 #        form2 = BookTime(initial={'renewal_minute': proposed_renewal_minute})
 
     context = {

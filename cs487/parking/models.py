@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import timedelta
 
 # Create your models here.
 class Address(models.Model):
@@ -31,9 +32,17 @@ class ParkingSpot(models.Model):
     booked_time = models.DateTimeField(null=True, blank=True)
     booked_minute = models.IntegerField(null=True, blank=True)
     end_time = models.DateTimeField(null=True, blank=True)
+    license_plate = models.CharField(max_length=7, null=True, blank=True)
     class Meta:
         permissions = (("booked", "This parking spot is booked by this user"),)   
-
+    def checkStatus(self):
+        #occupied
+        if self.booked_time > datetime.datetime.now() and self.booked_time < datetime.datetime.now() + timedelta(hours=24):
+            return 'o'
+        if self.end_time > datetime.datetime.now() and self.end_time < datetime.datetime.now() + timedelta(hours=24):
+            return 'o'        
+        #not occupied
+        return 'n'
 #    def getLot_id(self):
 #        return lot_id.lot_id
 

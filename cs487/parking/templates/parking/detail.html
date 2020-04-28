@@ -9,15 +9,15 @@ Hi, {{ user.get_username }}! <br>
 <ul>
 		<b>parking lot # {{lot_id}}:</b> <br>
 		*** <br>
-		name: {{lot_name}} <br>
-		hours: {{lot_hours}} <br>
-		Address: <br>
+		<u>name:</u> {{lot_name}}<br>
+		<u>hours:</u> {{lot_hours}}<br>
+		<u>Address:</u><br>
 		{{lot_address|linebreaksbr}}
 		***	<br>
 
 
 		spot # | status | date occupied | link to book this spot <br>
-		(o for "occupied in 24 hours"; n for "not occupied")<br>
+		(o for "occupied in 24 hours"; n for "not occupied")<br><br>
 
 		{% for question in latest_question_list %}
 		<li>spot # {{question.spot_number}} | {{question.spot_occupancy}} | {{question.booked_date}} | <a href="{% url 'parking:book' question.spot_id %}"><u>Click here to book!</u></a> </li>

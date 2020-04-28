@@ -11,7 +11,7 @@ Hi, {{ user.get_username }}! <br>
 <ul>
 		<b>my spots:</b> <br>
 		{% for bookinst in bookinstance_list %} 
-		<li>parking lot: {{bookinst.lot_id.lot_name}} | <a href="{% url 'parking:detail' bookinst.lot_id.lot_id %}">spot # {{bookinst.spot_number}}</a> | {{bookinst.spot_occupancy}} | {{bookinst.booked_time}} | {{bookinst.end_time}}</li>
+		<li>parking lot: {{bookinst.lot_id.lot_name}} | <a href="{% url 'parking:detail' bookinst.lot_id.lot_id %}">spot # {{bookinst.spot_number}}</a> | {{bookinst.license_plate}} | {{bookinst.booked_time}} | {{bookinst.end_time}}</li>
 		{% endfor %}
 </ul>
 
