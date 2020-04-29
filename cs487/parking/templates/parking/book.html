@@ -20,6 +20,6 @@ Hi, {{ user.get_username }}! <br>
 		<table>
 				{{ form1.as_table }}
 		</table>
-		<input type="submit" value="Submit">
+		<input type="submit" onclick="return confirm('Are you sure?')"  value="Submit">
 </form>
 {% endblock %}
