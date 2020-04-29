@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+Hi, {{ user.get_username }}! <br>
+<a href="{% url 'logout'%}?next={{request.path}}">Logout</a> <br><br>
+
+<h1>parking lot: {{book_instance.lot_id.lot_name}} | spot # {{book_instance.spot_number}}</a> </h1>
+<p{% if book_instance.is_overdue %} class="text-danger"{% endif %}>Due date: {{ book_instance.booked_date }}</p>
+
+<form action="" method="post">
+		{% csrf_token %}
+		<table>
+				{{ form.as_table }}
+		</table>
+		<input type="submit" value="Submit">
+</form>
+{% endblock %}

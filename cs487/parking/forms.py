@@ -3,6 +3,7 @@ import datetime
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+import pytz
 '''
 class BookSpot(forms.Form):
     renewal_date = forms.DateField(label="booking date", help_text="Enter a date.")
@@ -26,9 +27,12 @@ class BookTime(forms.Form):
     renewal_time = forms.DateTimeField(label="booking time", help_text="Enter a start time of your estimated parking.")
     renewal_minute = forms.IntegerField(label="booking minute", help_text="Enter how long do you estimat you will park.")
     renewal_license = forms.CharField(label="booking minute", help_text="Enter your license plate number.")
-    def clean_renewal_date(self):
+    def clean_renewal_time(self):
         data = self.cleaned_data['renewal_time']
-        if data < datetime.datetime.now():
+        print(data)
+        print (datetime.datetime.now())
+        tz_info = data.tzinfo
+        if data < datetime.datetime.now(tz_info):
             raise ValidationError(_('Invalid time - booking in past.'))
         return data
     def clean_renewal_minute(self):
