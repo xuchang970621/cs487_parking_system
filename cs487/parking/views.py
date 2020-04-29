@@ -23,7 +23,7 @@ from django.urls import reverse
 from django.db.models import Count
 from datetime import timedelta
 
-@login_required
+#@login_required
 def index(request):
     #    latest_question_list = ParkingSpot.objects.order_by('-lot_id')[:5]
     lot_list = ParkingLot.objects.order_by('lot_id')

@@ -1,9 +1,15 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-Hi, {{ user.get_username }}! <br>
 
+{% if user.is_authenticated %}
+Hi, {{ user.get_username }}! <br>
 <a href="{% url 'logout'%}?next={{request.path}}">Logout</a> <br><br>
+{% else %}
+<a href="{% url 'login' %}">Log In</a>
+{% endif %}
+
+
 
 <h1>Welcome to Parking Spot Locator.</h1>
 
